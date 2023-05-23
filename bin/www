@@ -9,6 +9,7 @@
 const app = require('../app');
 const debug = require('debug')('ws-node:server');
 const https = require('https');
+const WsServer = require('../modules/wsServer');
 
 const fs = require('fs');
 
@@ -16,6 +17,8 @@ const options = {
   key: fs.readFileSync('./certs/key.pem'),
   cert: fs.readFileSync('./certs/cert.pem')
 };
+
+
 
 /**
  * Get port from environment and store in Express.
@@ -29,6 +32,7 @@ app.set('port', port);
  */
 
 const server = https.createServer(options, app);
+const wsServer = new WsServer(server); // make object with a red to http server
 
 /**
  * Listen on provided port, on all network interfaces.
